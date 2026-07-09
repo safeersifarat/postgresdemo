@@ -1,22 +1,23 @@
 # crud/create.py
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from db import get_db_connection
 
-def insert_user(user_id, username):
+def delete_user(user_id):
     conn = get_db_connection()
     if conn:
         try:
             cursor = conn.cursor()
-            query = "INSERT INTO users (id, username) VALUES (%s, %s);"
-            cursor.execute(query, (user_id, username))
+            query = "DELETE FROM users WHERE id = %s;"
+            cursor.execute(query, (user_id,))
             conn.commit()
             cursor.close()
-            print(f"User {username} created successfully.")
+            print(f"User {user_id} deleted successfully.")
         except Exception as e:
-            print(f"Error creating user: {e}")
+            print(f"Error deleting user: {e}")
         finally:
             conn.close()
 
-insert_user(1,"safeer")
+delete_user(1)
